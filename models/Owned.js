@@ -21,4 +21,4 @@ const Schema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Wishlist", Schema);
+module.exports = mongoose.model("Owned", Schema);

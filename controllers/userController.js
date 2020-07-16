@@ -32,11 +32,13 @@ exports.createUser = async (req, res, next) => {
 };
 
 exports.getMyProfile = async (req, res, next) => {
-  const wishlist = await Wishlist.find({ user: req.user._id }).populate(
-    "gameId"
-  );
-  console.log("this is wish list", wishlist);
-  return res.json({ status: "OK", data: req.user, wl: wishlist });
+  try {
+    const wishlist = await Wishlist.find({ user: req.user._id });
+    console.log("this is wish list", wishlist);
+    return res.json({ status: "OK", data: req.user, wishlist: wishlist });
+  } catch (err) {
+    return res.json({ status: "Failed", error: err.message });
+  }
 };
 
 exports.updateMyProfile = async (req, res, next) => {
