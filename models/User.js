@@ -35,12 +35,6 @@ const schema = new mongoose.Schema(
       required: [true, "Type of user is required"],
       default: "user",
     },
-    wishlist: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: "Game",
-      },
-    ],
     owned: [
       {
         type: mongoose.Schema.ObjectId,

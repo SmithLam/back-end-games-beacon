@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Wishlist = require("../models/Wishlist");
 
 exports.createUser = async (req, res, next) => {
   try {
@@ -31,7 +32,11 @@ exports.createUser = async (req, res, next) => {
 };
 
 exports.getMyProfile = async (req, res, next) => {
-  return res.json({ status: "OK", data: req.user });
+  const wishlist = await Wishlist.find({ user: req.user._id }).populate(
+    "gameId"
+  );
+  console.log("this is wish list", wishlist);
+  return res.json({ status: "OK", data: req.user, wl: wishlist });
 };
 
 exports.updateMyProfile = async (req, res, next) => {

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { schema } = require("./user");
+const User = require("./user");
 
 const Schema = new mongoose.Schema(
   {
@@ -40,4 +40,4 @@ const Schema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Game", Schema);
+module.exports = mongoose.model("Order", Schema);

@@ -1,15 +1,24 @@
 const mongoose = require("mongoose");
-const { schema } = require("./user");
 
-const Schema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
-    RAWGid: {
+    rawgId: {
       type: Number,
-      required: true,
+      required: [true, "rawgId is required"],
+      unique: true,
     },
-    name: {
+    cheapId: {
+      type: Number,
+      required: [true, "cheapId is required"],
+      unique: true,
+    },
+    rawgName: {
       type: String,
-      required: true,
+      required: [true, "rawgName is required"],
+    },
+    rawgCover: {
+      type: String,
+      required: [true, "rawgCover is required"],
     },
     averageRating: {
       type: Number,
@@ -33,4 +42,8 @@ const Schema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Game", Schema);
+schema.pre("save", async function (next) {
+  next();
+});
+
+module.exports = mongoose.model("Game", schema);
