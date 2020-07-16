@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const passport = require("passport");
+const Wishlist = require("../models/Wishlist");
 const axios = require("axios");
 
 exports.loginWithEmail = async (req, res, next) => {
@@ -14,10 +14,11 @@ exports.loginWithEmail = async (req, res, next) => {
       .json({ status: "fail", error: "wrong email or password" });
   }
   const token = await user.generateToken();
-  res.status(200).json({
-    status: "Logged In",
-    data: { user: user, token: token },
-  });
+  const wishlist = await Wishlist.find({ user: user._id });
+  console.log("this is wish list", wishlist);
+  return res
+    .status(200)
+    .json({ status: "OK", data: user, token, wishlist: wishlist });
 };
 
 exports.loginFacebook = async (req, res, next) => {
@@ -38,7 +39,11 @@ exports.loginFacebook = async (req, res, next) => {
     avatar: FacebookPicture,
   });
   const token = await user.generateToken();
-  res.json({ status: "ok", data: user, token });
+  const wishlist = await Wishlist.find({ user: user._id });
+  console.log("this is wish list", wishlist);
+  return res
+    .status(200)
+    .json({ status: "OK", data: user, token, wishlist: wishlist });
 };
 
 exports.loginGoogle = async (req, res, next) => {
@@ -56,5 +61,9 @@ exports.loginGoogle = async (req, res, next) => {
     avatar: data.data.picture,
   });
   const token = await user.generateToken();
-  res.json({ status: "ok", data: user, token });
+  const wishlist = await Wishlist.find({ user: user._id });
+  console.log("this is wish list", wishlist);
+  return res
+    .status(200)
+    .json({ status: "OK", data: user, token, wishlist: wishlist });
 };
