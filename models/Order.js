@@ -12,6 +12,7 @@ const Schema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    cartId: { type: mongoose.Schema.ObjectId, ref: "Cart", required: true },
     bought: [
       {
         gameID: {
@@ -31,7 +32,6 @@ const Schema = new mongoose.Schema(
       required: [true, "Status for this order is required"],
       default: "pending",
     },
-    paid: { type: Boolean },
   },
   {
     timestamps: true,
