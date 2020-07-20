@@ -3,6 +3,7 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const round = 5;
 const jwt = require("jsonwebtoken");
+const Cart = require("./Cart");
 
 const schema = new mongoose.Schema(
   {
@@ -96,6 +97,26 @@ schema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, round);
   }
   next();
+});
+
+schema.post("save", async function () {
+  try {
+    console.log("what is the user id", this._id);
+    const check = await Cart.exists({
+      buyer: this._id,
+      status: "PENDING",
+    });
+    if (check) {
+      throw new Error("You already have a pending cart this");
+    }
+    const cart = await Cart.create({
+      buyer: this._id,
+      status: "PENDING",
+    });
+    console.log(cart);
+  } catch (err) {
+    console.log(err.message);
+  }
 });
 
 schema.statics.findOneOrCreate = async function ({ email, name, avatar }) {

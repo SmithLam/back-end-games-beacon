@@ -37,6 +37,7 @@ var authRouter = require("./routes/auth");
 var gameRouter = require("./routes/game");
 var wishlistRouter = require("./routes/wishlist");
 var reviewRouter = require("./routes/review");
+var cartRouter = require("./routes/cart");
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);
@@ -44,6 +45,7 @@ app.use("/auth", authRouter);
 app.use("/game", gameRouter);
 app.use("/wishlist", wishlistRouter);
 app.use("/review", reviewRouter);
+app.use("/cart", cartRouter);
 
 app.route("*").all(function (req, res, next) {
   next(new AppError(404, "Route not found")); //go straight to the middleware

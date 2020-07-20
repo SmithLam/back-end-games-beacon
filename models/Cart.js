@@ -1,18 +1,23 @@
 const mongoose = require("mongoose");
-const User = require("./user");
 
 const Schema = new mongoose.Schema(
   {
     buyer: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
-      required: true,
+      required: [true, "the buyer is required"],
     },
-    bought: [
+    items: [
       {
-        gameID: { type: String },
+        gameId: { type: mongoose.Schema.ObjectId, ref: "Game" },
+        price: { type: Number },
       },
     ],
+    status: {
+      type: String,
+      enum: ["PENDING", "CANCELLED", "COMPLETED"],
+      default: "PENDING",
+    },
   },
   {
     timestamps: true,

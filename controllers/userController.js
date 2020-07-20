@@ -17,7 +17,6 @@ exports.createUser = async (req, res, next) => {
       avatar: avatar,
       type: type || "user",
     });
-
     res.status(201).json({
       status: "OK",
       data: user,

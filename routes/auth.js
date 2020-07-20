@@ -12,7 +12,7 @@ const { logoutMyProfile } = require("../controllers/userController");
 const { loginRequired } = require("../middleware/auth.js");
 const { route } = require(".");
 
-router.route("/login/facebook").get(loginFacebook);
+router.route("/login/facebook").get(loginFacebook)
 
 router.route("/login/google").get(loginGoogle);
 
