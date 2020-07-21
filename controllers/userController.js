@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const Wishlist = require("../models/Wishlist");
+const Cart = require("../models/Cart");
+const user = require("../models/user");
 
 exports.createUser = async (req, res, next) => {
   try {
@@ -32,9 +34,20 @@ exports.createUser = async (req, res, next) => {
 
 exports.getMyProfile = async (req, res, next) => {
   try {
-    const wishlist = await Wishlist.find({ user: req.user._id });
+    const user = req.user;
+    const wishlist = await Wishlist.find({ user: user._id });
     console.log("this is wish list", wishlist);
-    return res.json({ status: "OK", data: req.user, wishlist: wishlist });
+    const cart = await await Cart.findOne({
+      buyer: user._id,
+      status: "PENDING",
+    });
+    console.log("this is cart", cart);
+    return res.status(200).json({
+      status: "OK",
+      data: user,
+      wishlist: wishlist,
+      cart: cart,
+    });
   } catch (err) {
     return res.json({ status: "Failed", error: err.message });
   }

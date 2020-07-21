@@ -39,6 +39,7 @@ var wishlistRouter = require("./routes/wishlist");
 var reviewRouter = require("./routes/review");
 var cartRouter = require("./routes/cart");
 
+
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/auth", authRouter);

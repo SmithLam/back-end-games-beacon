@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Wishlist = require("../models/Wishlist");
+const Cart = require("../models/Cart");
 const axios = require("axios");
 
 exports.loginWithEmail = async (req, res, next) => {
@@ -16,9 +17,11 @@ exports.loginWithEmail = async (req, res, next) => {
   const token = await user.generateToken();
   const wishlist = await Wishlist.find({ user: user._id });
   console.log("this is wish list", wishlist);
+  const cart = await Cart.findOne({ buyer: user._id, status: "PENDING" });
+  console.log("this is cart", cart);
   return res
     .status(200)
-    .json({ status: "OK", data: user, token, wishlist: wishlist });
+    .json({ status: "OK", data: user, token, wishlist: wishlist, cart: cart });
 };
 
 exports.loginFacebook = async (req, res, next) => {
@@ -41,9 +44,11 @@ exports.loginFacebook = async (req, res, next) => {
   const token = await user.generateToken();
   const wishlist = await Wishlist.find({ user: user._id });
   console.log("this is wish list", wishlist);
+  const cart = await Cart.findOne({ buyer: user._id, status: "PENDING" });
+  console.log("this is cart", cart);
   return res
     .status(200)
-    .json({ status: "OK", data: user, token, wishlist: wishlist });
+    .json({ status: "OK", data: user, token, wishlist: wishlist, cart: cart });
 };
 
 exports.loginGoogle = async (req, res, next) => {
@@ -62,8 +67,16 @@ exports.loginGoogle = async (req, res, next) => {
   });
   const token = await user.generateToken();
   const wishlist = await Wishlist.find({ user: user._id });
+  if (!wishlist) {
+    wishlist === null;
+  }
   console.log("this is wish list", wishlist);
+  const cart = await Cart.findOne({ buyer: user._id, status: "PENDING" });
+  if (!cart) {
+    wishlist === null;
+  }
+  console.log("this is cart", cart);
   return res
     .status(200)
-    .json({ status: "OK", data: user, token, wishlist: wishlist });
+    .json({ status: "OK", data: user, token, wishlist: wishlist, cart: cart });
 };

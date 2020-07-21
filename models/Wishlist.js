@@ -13,6 +13,8 @@ const Schema = new mongoose.Schema(
       required: [true, "the game that is liked is required"],
     },
     rawgId: { type: Number, required: [true, "rawgId is necessary"] },
+    name: { type: String },
+    cover: { type: String },
   },
   {
     timestamps: true,

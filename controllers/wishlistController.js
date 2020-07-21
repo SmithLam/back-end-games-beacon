@@ -1,22 +1,27 @@
 const Wishlist = require("../models/Wishlist");
 
-// user: {
-//   type: mongoose.Schema.ObjectId,
-//   ref: "User",
-//   required: [true, "the user who likes is required"],
-// },
-// gameId: {
-//   type: mongoose.Schema.ObjectId,
-//   ref: "Game",
-//   required: [true, "the game that is liked is required"],
-// },
-// rawgId: { type: Number, required: [true, "rawgId is necessary"] },
+//     user: {
+//       type: mongoose.Schema.ObjectId,
+//       ref: "User",
+//       required: [true, "the user who likes is required"],
+//     },
+//     gameId: {
+//       type: mongoose.Schema.ObjectId,
+//       ref: "Game",
+//       required: [true, "the game that is liked is required"],
+//     },
+//     rawgId: { type: Number, required: [true, "rawgId is necessary"] },
+//     name: { type: String },
+// cover: { type: String },
 
 exports.createWishlist = async (req, res, next) => {
   try {
     const user = req.user._id;
     const gameId = req.params.gameId;
     const rawgId = req.body.rawgId;
+    const name = req.body.name;
+    const cover = req.body.cover;
+
     if (!user || !gameId) {
       return res.status(400).json({
         status: "failed",
@@ -34,6 +39,8 @@ exports.createWishlist = async (req, res, next) => {
       user,
       gameId,
       rawgId,
+      name,
+      cover,
     });
     res.status(201).json({
       status: "OK",

@@ -11,6 +11,8 @@ const Schema = new mongoose.Schema(
       {
         gameId: { type: mongoose.Schema.ObjectId, ref: "Game" },
         price: { type: Number },
+        name: { type: String },
+        cover: { type: String },
       },
     ],
     status: {

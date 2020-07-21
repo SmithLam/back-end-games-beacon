@@ -3,12 +3,14 @@ const Cart = require("../models/Cart");
 // buyer: {
 //   type: mongoose.Schema.ObjectId,
 //   ref: "User",
-//   required: true,
+//   required: [true, "the buyer is required"],
 // },
-// bought: [
+// items: [
 //   {
-//     gameID: { type: String },
+//     gameId: { type: mongoose.Schema.ObjectId, ref: "Game" },
 //     price: { type: Number },
+//     title: { type: String },
+//     image: { type: String },
 //   },
 // ],
 // status: {
@@ -35,13 +37,15 @@ exports.updateCart = async (req, res, next) => {
     const buyer = req.user._id;
     const gameId = req.params.gameId;
     const price = req.body.price;
+    const name = req.body.name;
+    const cover = req.body.cover;
     if (!gameId || !price) {
       return res.status(400).json({
         status: "failed",
         error: "game id and prices are required",
       });
     }
-    let item = { gameId: gameId, price: price };
+    let item = { gameId: gameId, price: price, name: name, cover: cover };
     console.log("this is the game to add here", item);
     let cart = await Cart.findOne({
       buyer: buyer,
