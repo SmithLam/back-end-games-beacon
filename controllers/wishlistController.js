@@ -1,46 +1,42 @@
 const Wishlist = require("../models/Wishlist");
+const Game = require("../models/Game");
 
-//     user: {
-//       type: mongoose.Schema.ObjectId,
-//       ref: "User",
-//       required: [true, "the user who likes is required"],
-//     },
-//     gameId: {
-//       type: mongoose.Schema.ObjectId,
-//       ref: "Game",
-//       required: [true, "the game that is liked is required"],
-//     },
-//     rawgId: { type: Number, required: [true, "rawgId is necessary"] },
-//     name: { type: String },
+// user: {
+//   type: mongoose.Schema.ObjectId,
+//   ref: "User",
+//   required: [true, "the user who likes is required"],
+// },
+// rawgId: { type: Number, required: [true, "rawgId is necessary"] },
+// name: { type: String },
 // cover: { type: String },
 
 exports.createWishlist = async (req, res, next) => {
   try {
     const user = req.user._id;
-    const gameId = req.params.gameId;
-    const rawgId = req.body.rawgId;
+    const rawgId = req.params.rawgId;
     const name = req.body.name;
     const cover = req.body.cover;
+    const price = req.body.price;
 
-    if (!user || !gameId) {
+    if (!user || !rawgId) {
       return res.status(400).json({
         status: "failed",
-        error: "user id and game id, rawgId are all required",
+        error: "user id and rawgId are all required",
       });
     }
     const check = await Wishlist.exists({
       user: user,
-      gameId: gameId,
+      rawgId: rawgId,
     });
     if (check) {
       throw new Error("You already wishlisted this");
     }
     const wishlist = await Wishlist.create({
       user,
-      gameId,
       rawgId,
       name,
       cover,
+      price,
     });
     res.status(201).json({
       status: "OK",

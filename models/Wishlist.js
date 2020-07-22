@@ -7,14 +7,10 @@ const Schema = new mongoose.Schema(
       ref: "User",
       required: [true, "the user who likes is required"],
     },
-    gameId: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Game",
-      required: [true, "the game that is liked is required"],
-    },
     rawgId: { type: Number, required: [true, "rawgId is necessary"] },
     name: { type: String },
     cover: { type: String },
+    price: { type: Number },
   },
   {
     timestamps: true,

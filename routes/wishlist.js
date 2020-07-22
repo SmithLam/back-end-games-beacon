@@ -7,13 +7,12 @@ const {
   deleteWishlist,
 } = require("../controllers/wishlistController");
 const { loginRequired } = require("../middleware/auth.js");
-const { gameIdValidate } = require("../middleware/gameAuth");
 
 router.route("/").get(loginRequired, getWishlist);
 
 router
-  .route("/:gameId")
-  .post(loginRequired, gameIdValidate, createWishlist)
+  .route("/:rawgId")
+  .post(loginRequired, createWishlist)
 
 router.route("/:rawgId").delete(loginRequired, deleteWishlist);
 
