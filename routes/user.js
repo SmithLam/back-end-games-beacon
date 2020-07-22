@@ -6,6 +6,9 @@ const {
   getMyProfile,
   updateMyProfile,
 } = require("../controllers/userController");
+
+// const { createCart } = require("../controllers/cartController");
+
 const { loginRequired } = require("../middleware/auth.js");
 
 router.route("/register").post(createUser);

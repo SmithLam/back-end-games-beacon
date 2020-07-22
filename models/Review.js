@@ -21,10 +21,11 @@ const schema = new mongoose.Schema(
       mixlength: 5,
       maxlength: 700,
     },
-    game: {
+    rawgId: { type: Number, required: [true, "rawgId is required"] },
+    gameId: {
       type: mongoose.Schema.ObjectId,
       ref: "Game",
-      required: true,
+      required: [true, "gameId is required"],
     },
   },
   {
@@ -37,8 +38,8 @@ const schema = new mongoose.Schema(
 //middleware for post(save)
 schema.post("save", async function () {
   // "this" ==== review doc (review instance)
-  console.log("what is the exp id", this.exp);
-  await this.constructor.calculateAverage(this.exp);
+  console.log("what is the game id", this.gameId);
+  await this.constructor.calculateAverage(this.gameId);
 });
 
 schema.pre(/^findOneAnd/, async function (next) {
@@ -54,56 +55,33 @@ schema.pre(/^findOneAnd/, async function (next) {
 schema.post(/^findOneAnd/, async function () {
   //this === Review.query
   //this.contructor === Review node
-  await this.doc.constructor.calculateAverage(this.doc.exp);
+  await this.doc.constructor.calculateAverage(this.doc.rawgId);
 });
 
 //calculate the average
-schema.statics.calculateAverage = async function (expID) {
+schema.statics.calculateAverage = async function (gameId) {
   //this refers to model
   const stats = await this.aggregate([
     {
-      $match: { exp: expID },
+      $match: { gameId: gameId },
     },
     //return array of reviews of an experience
     {
       $group: {
-        _id: "$exp",
+        _id: "$gameId",
         nRating: { $sum: 1 },
-        avgRating: { $avg: "$rating" },
+        averageRating: { $avg: "$rating" },
       },
     },
   ]);
   console.log("what is the stats here", stats);
-  await Exp.findOneAndUpdate(
-    { _id: expID },
+  await Game.findOneAndUpdate(
+    { _id: gameId },
     {
       nRating: stats.length > 0 ? stats[0].nRating : 0,
-      averageRating: stats.length > 0 ? stats[0].avgRating : 0,
+      averageRating: stats.length > 0 ? stats[0].averageRating : 0,
     }
   );
 };
-
-// schema.pre("save", async function (req, res, next) {
-//   const reviewID = this._id;
-//   const expID = this.exp;
-//   const exp = await Experiences.findOne({ _id: expID });
-//   const expReviews = exp.reviews;
-//   console.log("This is the review id", reviewID);
-//   console.log("This is the exp id", expID);
-//   console.log("this is the exp targeted", expReviews);
-//   const match = await Experiences.findOne({ reviews: reviewID });
-//   console.log("does it match or not", match);
-//   if (match) {
-//     return next();
-//   } else {
-//     await expReviews.push(reviewID);
-//     const addReview = await Experiences.findOneAndUpdate(
-//       { _id: expID },
-//       { reviews: expReviews },
-//       { upsert: true, new: true, runValidators: true }
-//     );
-//     next();
-//   }
-// });
 
 module.exports = mongoose.model("Review", schema);
