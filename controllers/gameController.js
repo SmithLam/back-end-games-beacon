@@ -1,31 +1,6 @@
 const Game = require("../models/Game");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-// rawgId: {
-//   type: Number,
-//   required: true,
-// },
-// rawgName: {
-//   type: String,
-//   required: true,
-// },
-// rawgCover: {
-//   type: String,
-// },
-// averageRating: {
-//   type: Number,
-//   default: 0,
-//   min: 0,
-//   max: 5,
-// },
-// nRating: {
-//   type: Number,
-//   default: 0,
-// },
-// nSold: {
-//   type: Number,
-//   default: 0,
-// },
 
 exports.createGame = catchAsync(async (req, res, next) => {
   console.log("this is the create game body", req.body);

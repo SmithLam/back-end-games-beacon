@@ -1,14 +1,6 @@
 const Wishlist = require("../models/Wishlist");
 const Game = require("../models/Game");
 
-// user: {
-//   type: mongoose.Schema.ObjectId,
-//   ref: "User",
-//   required: [true, "the user who likes is required"],
-// },
-// rawgId: { type: Number, required: [true, "rawgId is necessary"] },
-// name: { type: String },
-// cover: { type: String },
 
 exports.createWishlist = async (req, res, next) => {
   try {

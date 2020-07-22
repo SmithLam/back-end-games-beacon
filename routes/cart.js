@@ -10,7 +10,6 @@ const { loginRequired } = require("../middleware/auth.js");
 const { gameIdValidate } = require("../middleware/gameAuth");
 const { deleteGame } = require("../controllers/gameController");
 
-// router.route("/").get(loginRequired, getReview);
 
 router.route("/").get(loginRequired, getCart);
 

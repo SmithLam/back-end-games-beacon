@@ -1,23 +1,6 @@
 const Cart = require("../models/Cart");
 
-// buyer: {
-//   type: mongoose.Schema.ObjectId,
-//   ref: "User",
-//   required: [true, "the buyer is required"],
-// },
-// items: [
-//   {
-//     gameId: { type: mongoose.Schema.ObjectId, ref: "Game" },
-//     price: { type: Number },
-//     title: { type: String },
-//     image: { type: String },
-//   },
-// ],
-// status: {
-//   type: String,
-//   enum: ["PENDING", "CANCELLED", "COMPLETED"],
-//   default: "PENDING",
-// },
+
 
 exports.getCart = async (req, res, next) => {
   try {

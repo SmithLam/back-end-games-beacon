@@ -1,27 +1,4 @@
 const Review = require("../models/Review");
-//    author: {
-//       type: mongoose.Schema.ObjectId,
-//       ref: "User",
-//       required: [true, "author of review is required"],
-//     },
-//     rating: {
-//       type: Number,
-//       required: [true, "rating is required"],
-//       min: 1,
-//       max: 5,
-//     },
-//     description: {
-//       type: String,
-//       trim: true,
-//       mixlength: 5,
-//       maxlength: 700,
-//     },
-//     rawgId: { type: Number, required: [true, "rawgId is required"] },
-//     gameId: {
-//       type: mongoose.Schema.ObjectId,
-//       ref: "Game",
-//       required: [true, "gameId is required"],
-//     },
 
 exports.createReview = async (req, res, next) => {
   try {
