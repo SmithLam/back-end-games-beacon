@@ -1,4 +1,3 @@
-const User = require("../models/user");
 const Wishlist = require("../models/Wishlist");
 const Cart = require("../models/Cart");
 const User = require("../models/User");
