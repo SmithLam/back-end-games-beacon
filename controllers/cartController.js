@@ -95,8 +95,8 @@ exports.deleteItemInCart = async (req, res, next) => {
       throw new Error("You don't have a cart for this");
     }
     cart.items = cart.items.filter((item) => item.rawgId != rawgId);
-    cart.save();
     console.log("this is the new filtered cart", cart);
+    cart.save();
     res.status(201).json({
       status: "OK",
       data: cart,
