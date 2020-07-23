@@ -9,7 +9,7 @@ const Schema = new mongoose.Schema(
     },
     items: [
       {
-        gameId: { type: mongoose.Schema.ObjectId, ref: "Game" },
+        rawgId: { type: Number },
         price: { type: Number },
         name: { type: String },
         cover: { type: String },
@@ -20,6 +20,7 @@ const Schema = new mongoose.Schema(
       enum: ["PENDING", "CANCELLED", "COMPLETED"],
       default: "PENDING",
     },
+    total: { type: Number },
   },
   {
     timestamps: true,

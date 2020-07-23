@@ -1,6 +1,23 @@
 const Cart = require("../models/Cart");
 
-
+//  buyer: {
+//       type: mongoose.Schema.ObjectId,
+//       ref: "User",
+//       required: [true, "the buyer is required"],
+//     },
+//     items: [
+//       {
+//         rawgId: { type: Number },
+//         price: { type: Number },
+//         name: { type: String },
+//         cover: { type: String },
+//       },
+//     ],
+//     status: {
+//       type: String,
+//       enum: ["PENDING", "CANCELLED", "COMPLETED"],
+//       default: "PENDING",
+//     },
 
 exports.getCart = async (req, res, next) => {
   try {
@@ -18,17 +35,22 @@ exports.getCart = async (req, res, next) => {
 exports.updateCart = async (req, res, next) => {
   try {
     const buyer = req.user._id;
-    const gameId = req.params.gameId;
+    const rawgId = req.params.rawgId;
     const price = req.body.price;
     const name = req.body.name;
     const cover = req.body.cover;
-    if (!gameId || !price) {
+    if (!rawgId || !price) {
       return res.status(400).json({
         status: "failed",
         error: "game id and prices are required",
       });
     }
-    let item = { gameId: gameId, price: price, name: name, cover: cover };
+    let item = {
+      rawgId: rawgId,
+      price: price,
+      name: name,
+      cover: cover,
+    };
     console.log("this is the game to add here", item);
     let cart = await Cart.findOne({
       buyer: buyer,
@@ -37,8 +59,11 @@ exports.updateCart = async (req, res, next) => {
     if (!cart) {
       throw new Error("You don't have a cart for this");
     }
-    console.log("This is the cart here", cart);
-    cart.items.push(item);
+    if (cart.items.filter((item) => item.name === name).length > 0) {
+      throw new Error("This game is already inside cart");
+    } else {
+      cart.items.push(item);
+    }
     cart.save();
     res.status(201).json({
       status: "OK",
@@ -55,11 +80,11 @@ exports.updateCart = async (req, res, next) => {
 exports.deleteItemInCart = async (req, res, next) => {
   try {
     const buyer = req.user._id;
-    const gameId = req.params.gameId;
-    if (!gameId) {
+    const rawgId = req.params.rawgId;
+    if (!rawgId || !buyer) {
       return res.status(400).json({
         status: "failed",
-        error: "game id is required",
+        error: "buyer id and game id are required",
       });
     }
     let cart = await Cart.findOne({
@@ -69,7 +94,7 @@ exports.deleteItemInCart = async (req, res, next) => {
     if (!cart) {
       throw new Error("You don't have a cart for this");
     }
-    cart.items = cart.items.filter((item) => item.gameId != gameId);
+    cart.items = cart.items.filter((item) => item.rawgId != rawgId);
     cart.save();
     console.log("this is the new filtered cart", cart);
     res.status(201).json({

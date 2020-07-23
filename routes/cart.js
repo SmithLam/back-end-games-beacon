@@ -7,15 +7,15 @@ const {
   deleteItemInCart,
 } = require("../controllers/cartController");
 const { loginRequired } = require("../middleware/auth.js");
-const { gameIdValidate } = require("../middleware/gameAuth");
-const { deleteGame } = require("../controllers/gameController");
+
+
 
 
 router.route("/").get(loginRequired, getCart);
 
 router
-  .route("/:gameId")
-  .patch(loginRequired, gameIdValidate, updateCart)
-  .delete(loginRequired, gameIdValidate, deleteItemInCart);
+  .route("/:rawgId")
+  .patch(loginRequired, updateCart)
+  .delete(loginRequired, deleteItemInCart);
 
 module.exports = router;
