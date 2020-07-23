@@ -1,6 +1,4 @@
 const User = require("../models/User");
-const Wishlist = require("../models/Wishlist");
-const Cart = require("../models/Cart");
 const axios = require("axios");
 
 exports.loginWithEmail = async (req, res, next) => {
@@ -15,13 +13,9 @@ exports.loginWithEmail = async (req, res, next) => {
       .json({ status: "fail", error: "wrong email or password" });
   }
   const token = await user.generateToken();
-  const wishlist = await Wishlist.find({ user: user._id });
-  console.log("this is wish list", wishlist);
-  const cart = await Cart.findOne({ buyer: user._id, status: "PENDING" });
-  console.log("this is cart", cart);
   return res
     .status(200)
-    .json({ status: "OK", data: user, token, wishlist: wishlist, cart: cart });
+    .json({ status: "OK", data: user, token });
 };
 
 exports.loginFacebook = async (req, res, next) => {
@@ -42,13 +36,9 @@ exports.loginFacebook = async (req, res, next) => {
     avatar: FacebookPicture,
   });
   const token = await user.generateToken();
-  const wishlist = await Wishlist.find({ user: user._id });
-  console.log("this is wish list", wishlist);
-  const cart = await Cart.findOne({ buyer: user._id, status: "PENDING" });
-  console.log("this is cart", cart);
   return res
     .status(200)
-    .json({ status: "OK", data: user, token, wishlist: wishlist, cart: cart });
+    .json({ status: "OK", data: user, token});
 };
 
 exports.loginGoogle = async (req, res, next) => {
@@ -66,17 +56,7 @@ exports.loginGoogle = async (req, res, next) => {
     avatar: data.data.picture,
   });
   const token = await user.generateToken();
-  const wishlist = await Wishlist.find({ user: user._id });
-  if (!wishlist) {
-    wishlist === null;
-  }
-  console.log("this is wish list", wishlist);
-  const cart = await Cart.findOne({ buyer: user._id, status: "PENDING" });
-  if (!cart) {
-    wishlist === null;
-  }
-  console.log("this is cart", cart);
   return res
     .status(200)
-    .json({ status: "OK", data: user, token, wishlist: wishlist, cart: cart });
+    .json({ status: "OK", data: user, token });
 };

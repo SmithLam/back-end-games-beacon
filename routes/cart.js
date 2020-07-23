@@ -8,9 +8,6 @@ const {
 } = require("../controllers/cartController");
 const { loginRequired } = require("../middleware/auth.js");
 
-
-
-
 router.route("/").get(loginRequired, getCart);
 
 router
