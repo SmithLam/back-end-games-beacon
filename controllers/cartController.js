@@ -64,6 +64,8 @@ exports.updateCart = async (req, res, next) => {
     } else {
       cart.items.push(item);
     }
+    let cartPrices = cart.items.map((e) => e.price);
+    cart.total = cartPrices.reduce((a, b) => a + b).toFixed(2);
     cart.save();
     res.status(201).json({
       status: "OK",
@@ -96,6 +98,12 @@ exports.deleteItemInCart = async (req, res, next) => {
     }
     cart.items = cart.items.filter((item) => item.rawgId != rawgId);
     console.log("this is the new filtered cart", cart);
+    if (cart.items.length === 0) {
+      cart.total = 0;
+    } else {
+      let cartPrices = cart.items.map((e) => e.price);
+      cart.total = cartPrices.reduce((a, b) => a + b).toFixed(2);
+    }
     cart.save();
     res.status(201).json({
       status: "OK",
