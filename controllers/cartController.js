@@ -1,24 +1,5 @@
 const Cart = require("../models/Cart");
 
-//  buyer: {
-//       type: mongoose.Schema.ObjectId,
-//       ref: "User",
-//       required: [true, "the buyer is required"],
-//     },
-//     items: [
-//       {
-//         rawgId: { type: Number },
-//         price: { type: Number },
-//         name: { type: String },
-//         cover: { type: String },
-//       },
-//     ],
-//     status: {
-//       type: String,
-//       enum: ["PENDING", "CANCELLED", "COMPLETED"],
-//       default: "PENDING",
-//     },
-
 exports.getCart = async (req, res, next) => {
   try {
     const buyer = req.user._id;

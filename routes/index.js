@@ -7,6 +7,7 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
 
+// test payment
 router.get("/test", async function (req, res, next) {
   try {
     //  const { quantity, cc_number, cc_exp_month, cc_exp_year, cc_cvc } = req.body;
