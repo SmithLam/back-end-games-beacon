@@ -18,6 +18,27 @@ exports.getOrder = async (req, res, next) => {
   }
 };
 
+exports.getOwned = async (req, res, next) => {
+  try {
+    const buyer = req.user._id;
+    if (!buyer) {
+      throw new Error("There is no buyer found");
+    }
+    const owned = await Owned.find({
+      user: buyer,
+    });
+    const ownedRawgId = owned.map((game) => {
+      return game.rawgId;
+    });
+    res.status(201).json({
+      status: "OK",
+      data: { owned: owned, ownedRawgId: ownedRawgId },
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 exports.createOrder = async (req, res, next) => {
   try {
     const buyer = req.user._id;
