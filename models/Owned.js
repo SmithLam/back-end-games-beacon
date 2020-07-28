@@ -5,14 +5,16 @@ const Schema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
-      required: [true, "the user who likes is required"],
+      required: [true, "the user who owned this game is required"],
     },
-    gameId: {
+    rawgId: { type: Number },
+    name: { type: String },
+    cover: { type: String },
+    orderId: {
       type: mongoose.Schema.ObjectId,
-      ref: "Game",
-      required: [true, "the game that is liked is required"],
+      ref: "Order",
+      required: [true, "the order is required"],
     },
-    rawgId: { type: Number, required: [true, "rawgId is necessary"] },
   },
   {
     timestamps: true,

@@ -5,7 +5,6 @@ const Schema = new mongoose.Schema(
   {
     paymentID: {
       type: Number,
-      required: true,
     },
     buyer: {
       type: mongoose.Schema.ObjectId,
@@ -13,24 +12,18 @@ const Schema = new mongoose.Schema(
       required: true,
     },
     cartId: { type: mongoose.Schema.ObjectId, ref: "Cart", required: true },
-    bought: [
+    items: [
       {
-        gameID: {
-          type: mongoose.Schema.ObjectId,
-          ref: "Game",
-          required: true,
-        },
-        currentPrice: {
-          type: Number,
-          required: true,
-        },
+        rawgId: { type: Number },
+        price: { type: Number },
+        name: { type: String },
+        cover: { type: String },
       },
     ],
+    total: { type: Number },
     status: {
       type: String,
-      enum: ["pending", "cancelled", "completed"],
-      required: [true, "Status for this order is required"],
-      default: "pending",
+      default: "COMPLETED",
     },
   },
   {

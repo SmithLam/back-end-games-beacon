@@ -40,6 +40,7 @@ var wishlistRouter = require("./routes/wishlist");
 var reviewRouter = require("./routes/review");
 var cartRouter = require("./routes/cart");
 var passwordRouter = require("./routes/password")
+var orderRouter = require("./routes/order")
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);
@@ -49,6 +50,7 @@ app.use("/wishlist", wishlistRouter);
 app.use("/review", reviewRouter);
 app.use("/cart", cartRouter);
 app.use("/password", passwordRouter)
+app.use("/order", orderRouter)
 
 app.route("*").all(function (req, res, next) {
   next(new AppError(404, "Route not found")); //go straight to the middleware
